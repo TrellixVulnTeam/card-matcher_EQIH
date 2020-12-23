@@ -1,24 +1,26 @@
 <template>
     <div class="CardContainer">
       <Card 
-        v-for="(item, index) in cardList"
+        v-for="(itemName, index) in cardList"
         :key="index"
-        :className="item"
+        :listIndex="index"
+        :className="itemName"
         />
     </div>
 </template>
 
 <script>
 import Card from '../components/Card.vue';
+import { mapState } from 'vuex'
 
 export default {
-  name: 'CardContainer',
-  components: {
-    Card
-  },
-  props: {
-        cardList: Array,
+    name: 'CardContainer',
+    components: {
+        Card
     },
+    computed: {
+      ...mapState(['cardList', 'statusList'])
+    }
 }
 
 </script>

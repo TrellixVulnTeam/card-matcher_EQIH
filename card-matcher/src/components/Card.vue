@@ -3,45 +3,54 @@
         class="Card" 
         @click="toggleStatus()" 
         v-bind:class="{
-            'Card--flipped': isFlipped 
+            'Card--flipped': isFlipped,
+            'Card--visible' : isVisible,
         }"
-    >
+    >   
         <div class="Card__inner">
             <div class="Card__front">
-                <i class="fas fa-question" style="font-size:70px;"></i>
+                <font-awesome-icon :icon="['fas', 'question']" style="font-size: 50px;"/>
             </div>
             <div class="Card__back">
-                <i v-bind:class="computedClass" style="font-size:70px;"></i>
+                <font-awesome-icon :icon="computedClass" style="font-size: 50px;"/>
             </div>  
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-    data () {
-        return {
-            isFlipped: false,
-        }
-    },
     name: 'Card',
     props: {
-        className: String
+        className: String,
+        listIndex: Number,
     },
     methods: {
+        ...mapMutations([
+            'toggleCard',
+        ]),
         toggleStatus(){
-            this.isFlipped = !this.isFlipped;
+            if (!this.checkInProgress) {
+                this.toggleCard(this.listIndex);
+            }
         },
     },
     computed: {
-        ...mapState({
-                error: state => state.game.error,
-        }),
+        isFlipped() {
+            return this.$store.state.statusList[this.listIndex];
+        },
+        isVisible() {
+            return this.$store.state.visibilityList[this.listIndex];
+        },
+        isRendered() {
+            return !this.$store.state.cardSuccess[this.listIndex];
+        },
         computedClass () {
-            return `fas ${this.className}`
-        }
+            return ['fas', this.className]
+        },
+        ...mapState(['checkInProgress'])
     }
 }
 </script>
@@ -52,8 +61,9 @@ export default {
         width: 200px;
         height: 300px;
         perspective: 1000px;
-        cursor: pointer;
         margin: 10px 5px;
+        opacity: 0;
+        transition: opacity 1s;
 
         &__inner{
             position: relative;
@@ -66,10 +76,6 @@ export default {
             background: transparent;
             border-radius: 10px;
             border: 3px solid black;
-        }
-
-        &--flipped &__inner{
-            transform: rotateY(180deg);
         }
 
         &__front, &__back {
@@ -98,6 +104,15 @@ export default {
             background: rgb(2,0,36);
             background: linear-gradient(170deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 0%, rgba(0,212,255,1) 71%);
             transform: rotateY(180deg);
+        }
+        
+        &--flipped &__inner{
+            transform: rotateY(180deg);
+        }
+
+        &--visible {
+            opacity: 1;
+            cursor:pointer;
         }
     }   
 
