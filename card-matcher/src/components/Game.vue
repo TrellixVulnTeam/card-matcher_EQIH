@@ -1,18 +1,29 @@
 <template>
-  <div id="app">
+  <div 
+    class="Game"
+    v-bind:class="{
+      'Game--completed': gameStatus,
+    }"
+  >
+    <Message :status="gameStatus"/>
+    <Background :status="gameStatus"/>
     <CardContainer />
   </div>
 </template>
 
 <script>
-import CardContainer from './components/CardContainer.vue';
-import generateCardList from './logic/gameInit.js';
+import CardContainer from './CardContainer.vue';
+import Background from './Background.vue';
+import generateCardList from '../logic/gameInit.js';
+import Message from './Message.vue'
 import { mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Game',
   components: {
-    CardContainer
+    CardContainer,
+    Background,
+    Message,
   },
   methods: {
     ...mapMutations(['setCardList', 'setStatusList', 'toggleCard', 'toggleVisibility', 'setVisibilityList', 'setProgressStatus']),
@@ -32,6 +43,11 @@ export default {
       return cardList;
     },
     cardList: state => state.cardList,
+    gameStatus: state => {
+      let redFunc = (acc, currentValue) => (acc === false? acc : !currentValue);
+      return state.visibilityList.reduce(redFunc, true) && !state.checkInProgress;
+    },
+    checkInProgress: state => state.checkInProgress,
   }),
   mounted: function() {
     let statusList = [];
@@ -71,15 +87,36 @@ export default {
           }, 1200);
         }
       }
-    }
+    },
   }
 }
 
 </script>
 
-<style>
+<style lang="scss">
+
+.Game {
+    display: table;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-color: #171717;
+    color: #000;
+    line-height: 1.6;
+    position: relative;
+    font-family: sans-serif;
+    overflow: hidden;
+    transition: background-color .8s;
+
+    &--completed {
+    background: green !important;
+    }
+
+}
+
+
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 </style>

@@ -27,10 +27,12 @@ export default {
 
 <style>
   .CardContainer{
+    height: 100%;
     display: flex;
     justify-content: space-around;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: center;
 
   }
 #app {

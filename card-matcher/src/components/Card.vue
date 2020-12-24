@@ -5,6 +5,7 @@
         v-bind:class="{
             'Card--flipped': isFlipped,
             'Card--visible' : isVisible,
+            'Card--light' : checkInProgress && !isFlipped && isVisible,
         }"
     >   
         <div class="Card__inner">
@@ -32,7 +33,7 @@ export default {
             'toggleCard',
         ]),
         toggleStatus(){
-            if (!this.checkInProgress) {
+            if (!this.checkInProgress && this.isVisible) {
                 this.toggleCard(this.listIndex);
             }
         },
@@ -92,7 +93,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: gray;
+            background: #D71920;
         }  
 
 
@@ -113,6 +114,10 @@ export default {
         &--visible {
             opacity: 1;
             cursor:pointer;
+        }
+
+        &--light {
+            opacity: .6;
         }
     }   
 
