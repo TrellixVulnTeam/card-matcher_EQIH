@@ -2,7 +2,7 @@
     <div 
         class="Background"
         v-bind:class="{
-            'Background--success': status,
+            'Background--success': isSuccess,
         }"
         >
       <div class="Background__single-line"></div>
@@ -19,7 +19,7 @@
 export default {
     name: 'Background',
     props: {
-        status: Boolean,
+        isSuccess: Boolean,
     }
 }
 

@@ -1,5 +1,7 @@
 <template>
-    <div class="CardContainer">
+    <div 
+      class="CardContainer"
+      >
       <Card 
         v-for="(itemName, index) in cardList"
         :key="index"
@@ -18,6 +20,7 @@ export default {
     components: {
         Card
     },
+    
     computed: {
       ...mapState(['cardList', 'statusList'])
     }
@@ -25,7 +28,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
   .CardContainer{
     height: 100%;
     display: flex;

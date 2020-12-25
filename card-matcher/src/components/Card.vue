@@ -6,6 +6,7 @@
             'Card--flipped': isFlipped,
             'Card--visible' : isVisible,
             'Card--light' : checkInProgress && !isFlipped && isVisible,
+            'Card--completed' : gameCompleted,
         }"
     >   
         <div class="Card__inner">
@@ -33,25 +34,22 @@ export default {
             'toggleCard',
         ]),
         toggleStatus(){
-            if (!this.checkInProgress && this.isVisible) {
+            if (!this.checkInProgress && this.isVisible &&!this.isFlipped) {
                 this.toggleCard(this.listIndex);
             }
         },
     },
     computed: {
         isFlipped() {
-            return this.$store.state.statusList[this.listIndex];
+            return this.$store.state.flippedStatusList[this.listIndex];
         },
         isVisible() {
             return this.$store.state.visibilityList[this.listIndex];
         },
-        isRendered() {
-            return !this.$store.state.cardSuccess[this.listIndex];
-        },
         computedClass () {
             return ['fas', this.className]
         },
-        ...mapState(['checkInProgress'])
+        ...mapState(['checkInProgress', 'gameCompleted'])
     }
 }
 </script>
@@ -118,6 +116,10 @@ export default {
 
         &--light {
             opacity: .6;
+        }
+
+        &--completed {
+            opacity: 0;
         }
     }   
 

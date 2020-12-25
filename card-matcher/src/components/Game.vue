@@ -2,11 +2,12 @@
   <div 
     class="Game"
     v-bind:class="{
-      'Game--completed': gameStatus,
+      'Game--success': isSuccess && isGameCompleted,
     }"
   >
-    <Message :status="gameStatus"/>
-    <Background :status="gameStatus"/>
+    <Message :status="isGameCompleted" :isSuccess="isSuccess"/>
+    <StatusBar :status="isGameCompleted" />
+    <Background :isSuccess="isSuccess"/>
     <CardContainer />
   </div>
 </template>
@@ -14,9 +15,9 @@
 <script>
 import CardContainer from './CardContainer.vue';
 import Background from './Background.vue';
-import generateCardList from '../logic/gameInit.js';
 import Message from './Message.vue'
-import { mapMutations, mapState } from 'vuex'
+import StatusBar from './StatusBar.vue'
+import { mapMutations, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Game',
@@ -24,41 +25,42 @@ export default {
     CardContainer,
     Background,
     Message,
+    StatusBar,
   },
   methods: {
-    ...mapMutations(['setCardList', 'setStatusList', 'toggleCard', 'toggleVisibility', 'setVisibilityList', 'setProgressStatus']),
+    ...mapMutations(['setCardList', 'setFlippedStatusList', 'toggleCard', 'toggleVisibility', 'setVisibilityList', 'setProgressStatus', 'setLoosingLifeStatus', 'decreaseLives', 'setGameCompleted']),
+    ...mapActions(['initializeGame'])
   },
-  computed: mapState({
-    numFlippedCards: state => { 
-            let redFunc = (acc, currentValue) =>  (currentValue === true? acc + 1 : acc);
-            return state.statusList.reduce(redFunc, 0);
-    },
-    flippedCardList: state => {
-      let cardList = []
-      state.statusList.forEach((elem, index) => {
-        if (elem) {
-          cardList.push(index);
-        }
-      });
-      return cardList;
-    },
-    cardList: state => state.cardList,
-    gameStatus: state => {
-      let redFunc = (acc, currentValue) => (acc === false? acc : !currentValue);
-      return state.visibilityList.reduce(redFunc, true) && !state.checkInProgress;
-    },
-    checkInProgress: state => state.checkInProgress,
-  }),
+  computed: {
+    ...mapState({
+      numFlippedCards: state => { 
+              let redFunc = (acc, currentValue) =>  (currentValue === true? acc + 1 : acc);
+              return state.flippedStatusList.reduce(redFunc, 0);
+      },
+      flippedCardList: state => {
+        let cardList = []
+        state.flippedStatusList.forEach((elem, index) => {
+          if (elem) {
+            cardList.push(index);
+          }
+        });
+        return cardList;
+      },
+      isSuccess: state => {
+        let redFunc = (acc, currentValue) => (acc === false? acc : !currentValue);
+        return state.visibilityList.reduce(redFunc, true) && !state.checkInProgress;
+      },
+      checkInProgress: state => state.checkInProgress,
+      isGameCompleted: state => state.gameCompleted,
+      lives: state => state.lives,
+    }),
+  },
   mounted: function() {
-    let statusList = [];
-    let visibilityList = [];
-    for (let i = 0; i < 6; ++i) {
-      statusList.push(false);
-      visibilityList.push(true);
+    if (this.$store.state.gameInitialized) {
+      this.initializeGame();
+    } else {
+      this.$router.push({ name: 'Welcome'});
     }
-    this.setStatusList(statusList);
-    this.setVisibilityList(visibilityList);
-    this.setCardList(generateCardList());
   },
   watch: {
     numFlippedCards: function () {
@@ -75,15 +77,24 @@ export default {
               this.toggleCard(index1);
               this.toggleCard(index2);
               this.setProgressStatus(false);
+              if (this.isSuccess) {
+                this.setGameCompleted(true);
+              }
             }, 1000, index1, index2)
           }, 1200, maxIndex, flippedIndicies[0]);
         } else {
           setTimeout(() => {
+            this.setLoosingLifeStatus(true);
+            this.decreaseLives();
             this.toggleCard(flippedIndicies[0]);
             this.toggleCard(flippedIndicies[1]);
             setTimeout(() => {
+              this.setLoosingLifeStatus(false);
+              if (this.lives === 0) {
+                this.setGameCompleted(true);
+              }
               this.setProgressStatus(false);
-            }, 1200);
+            }, 1500);
           }, 1200);
         }
       }
@@ -108,7 +119,7 @@ export default {
     overflow: hidden;
     transition: background-color .8s;
 
-    &--completed {
+    &--success {
     background: green !important;
     }
 
