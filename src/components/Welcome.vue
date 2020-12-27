@@ -48,7 +48,7 @@
             <input type="range" name="lives" min="1" max="20" v-model="lives" step="2"/>
             <br>
             <a class="Welcome__start-button-wrapper" @click="startGame()">
-                <font-awesome-icon :icon="['fas', 'play']" class="Welcome__start-button"/>
+                <font-awesome-icon :icon="['fas', 'power-off']" class="Welcome__start-button"/>
             </a>
         </div>
         <CreatedBy class="Welcome__created-by"/>
@@ -203,7 +203,8 @@ $letters: 11;
         box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
         animation: flipAndRemoveBorder 7.5s ease-out forwards;
         transition: border-color 4.5s ease-out;
-        margin-top: 9px;
+        margin-top: 10px;
+        font-size: 60px;
     }
 
     &__letter--letter6 &__card-inner{
@@ -238,8 +239,25 @@ $letters: 11;
         align-items: center;
         background: transparent;
         transform: rotateY(180deg);
-        font-size: 60px;
         color: blue;
+    }
+
+    @media only screen and (max-width: 500px) {
+        .Welcome {
+            &__title {
+                font-size: 35px;
+            }
+
+            &__card-inner{
+                margin-top: 6px;
+                font-size: 35px;
+            }
+
+            &__card {
+                width: 30px;
+                height: 45px;
+            }
+        }
     }
 }
 
@@ -281,7 +299,7 @@ $letters: 11;
         border-color: rgba(0, 0, 0, 0);
         transform: rotateY(180deg);
         box-shadow: 0 0 0 transparent;
-    }
+   }
     
     100% {
         border-color: rgba(0, 0, 0, 0);
@@ -353,7 +371,7 @@ $letters: 11;
 @keyframes fadeInOptions {
     70% {
         opacity: 0;
-        transform: translateY(300px)
+        transform: translateY(20vh)
     }
 
     100% {
