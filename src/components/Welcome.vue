@@ -111,6 +111,7 @@ $letters: 11;
     flex-direction: column;
     font-family: 'Varela', sans-serif;
     background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+    position: relative;
 
     &__created-by {
         opacity: 0;
