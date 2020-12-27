@@ -1,21 +1,39 @@
 <template>
-    <div 
-        v-if="status"
-        class="Message"> 
-          <span 
-            v-if="isSuccess && status"
-            class="Message__success"
-            >
-            Success!
-            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Play Again </span>    <span class="Message__choice" @click="loadHome()">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
+  <div 
+      v-if="status"
+      class="Message"> 
+        <span 
+          v-if="isSuccess && status"
+          class="Message__success"
+          >
+          Success!
+          <span class="Message__choices"> 
+            <span class="Message__choice" @click="initializeGame()"> 
+              <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> 
+              Play Again 
+            </span>    
+            <span class="Message__choice" @click="loadHome()">  
+              <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> 
+              Home  
+            </span> 
           </span>
-          <span 
-            v-if="status && !isSuccess"
-            class="Message__fail"
-            >
-            Game Over
-            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Try Again </span>    <span class="Message__choice" @click="loadHome()">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
+        </span>
+        <span 
+          v-if="status && !isSuccess"
+          class="Message__fail"
+          >
+          Game Over
+          <span class="Message__choices"> 
+            <span class="Message__choice" @click="initializeGame()"> 
+              <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> 
+              Try Again 
+            </span>    
+            <span class="Message__choice" @click="loadHome()">  
+              <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> 
+              Home  
+            </span> 
           </span>
+        </span>
     </div>
 </template>
 
@@ -29,7 +47,7 @@ export default {
         isSuccess: Boolean,
     },
     methods: {
-      ...mapMutations(['setGameStatus']),
+      ...mapMutations(['setGameInitializedStatus']),
       ...mapActions(['initializeGame', 'restoreDefault']),
       loadHome() {
         this.restoreDefault();
@@ -41,16 +59,16 @@ export default {
 </script>
 
 <style lang='scss'>
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 .Message{
   position: absolute;
+  top: 0;
+  margin-top: 40vh;
   font-size: 60px;
-  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: flyin 3s ease-out;
+  animation: messageFlyIn 3s ease-out;
   font-family: 'Oswald', sans-serif;
   z-index: 3;
 
@@ -75,7 +93,7 @@ export default {
     font-weight: 500px;
     display: flex;
     justify-content: center;
-    animation: fadein 4.5s ease-out;
+    animation: messageFadeIn 4.5s ease-out;
   }
   
   &__choice {
@@ -88,7 +106,7 @@ export default {
   }
 }
 
-@keyframes flyin {
+@keyframes messageFlyIn {
   0% {
     transform: translateY(200px);
     opacity: 0;
@@ -99,7 +117,7 @@ export default {
   }
 }
 
-@keyframes fadein {
+@keyframes messageFadeIn {
   0% {
     opacity: 0;
   }

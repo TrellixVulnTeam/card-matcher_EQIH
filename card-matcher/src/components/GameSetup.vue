@@ -14,7 +14,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
 .GameSetup{
     position: absolute;
     width: 100%;
@@ -34,23 +33,23 @@ export default {
     }
     &__period:nth-child(2){
         opacity: 0;
-        animation: periodfade1 1.5s infinite;
+        animation: gameSetupFade1 1.5s infinite;
     }
 
     &__period:nth-child(3){
         opacity: 0;
-        animation: periodfade2 1.5s infinite;
+        animation: gameSetupFade2 1.5s infinite;
     }
 
     &__period:nth-child(4){
         opacity: 0;
-        animation: periodfade3 1.5s infinite;
+        animation: gameSetupFade3 1.5s infinite;
     }
 }
 
 
 
-@keyframes periodfade1{
+@keyframes gameSetupFade1{
     24%{
         opacity: 0;
     }
@@ -65,7 +64,7 @@ export default {
     }
 }
 
-@keyframes periodfade2{
+@keyframes gameSetupFade2{
     49%{
         opacity: 0;
     }
@@ -80,7 +79,7 @@ export default {
     }
 }
 
-@keyframes periodfade3{
+@keyframes gameSetupFade3{
     74%{
         opacity: 0;
     }

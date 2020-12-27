@@ -2,13 +2,11 @@
     <div
         class="StatusBar"
         v-bind:class="{
-            'StatusBar--flashing': loosingLife,
+            'StatusBar--flashing': loosingLifeStatus,
             'StatusBar--completed': status,
         }"
         >
-        <div 
-            class="StatusBar__panel"
-        >
+        <div class="StatusBar__panel">
             <font-awesome-icon :icon="['fas', 'heart']" style="font-size: 20px;"/> <span> {{ lives }} </span>
         </div>
     </div>
@@ -23,15 +21,13 @@ export default {
     },
     computed:   
         mapState([
-        'loosingLife', 'lives'
+        'loosingLifeStatus', 'lives'
     ])
 }
 
 </script>
 
 <style lang="scss">
-//TODO: Add state and logic/styling to flash red when life decreases, add state for life in general
-@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 .StatusBar{
     font-family: 'Oswald', sans-serif;
     position: absolute;
@@ -45,7 +41,7 @@ export default {
     z-index: 2;
 
     &--flashing{
-        animation: flash .75s infinite;
+        animation: decreaseHealthFlash .75s infinite;
     }
 
     &--completed{
@@ -67,12 +63,10 @@ export default {
     &__heart{
         font-size: 16px;
         color: red;
-    }
-
-    
+    }  
 }
 
-@keyframes flash {
+@keyframes decreaseHealthFlash {
   0%{
     color: white;
   }

@@ -1,8 +1,8 @@
-const MAX_LENGTH = 9
-
 const cardMainList = [
     'cat', 'crow', 'dragon', 'horse', 'hamburger',  'pizza-slice', 'carrot', 'candy-cane', 'cookie', 
 ]
+
+const MAX_LENGTH = cardMainList.length;
 
 const randomArrayIndex = (length) => {
     return Math.floor(Math.random() * length)

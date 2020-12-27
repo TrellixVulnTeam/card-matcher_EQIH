@@ -1,7 +1,7 @@
 <template>
   <div id="#app">
   <router-view></router-view>
-  <GameSetup v-if="gameSetup" />
+  <GameSetup v-if="gameSetupStatus" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
     GameSetup,
   },
   computed: {
-    ...mapState(['gameSetup'])
+    ...mapState(['gameSetupStatus'])
   }
 
 }
@@ -22,10 +22,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Varela&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 
-
-body {
-  min-width: 800px;
+html, body {
+    width: 100%;
+    height: 100%;
 }
 
 * {

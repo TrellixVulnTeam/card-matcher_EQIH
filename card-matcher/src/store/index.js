@@ -10,14 +10,15 @@ export default new Vuex.Store({
     visibilityList: [],
     checkInProgress: false,
     lives: 0,
-    loosingLife: false,
+    loosingLifeStatus: false,
     gameCompleted: false,
     chosenLives: 7,
     gameInitialized: false,
     numCards: 6,
-    gameSetup: false,
+    gameSetupStatus: false,
   },
   mutations: {
+    //Set Lists
     setFlippedStatusList(state, list) {
       state.flippedStatusList = list;
     },
@@ -27,23 +28,30 @@ export default new Vuex.Store({
     setVisibilityList(state, list) {
       state.visibilityList = list;
     },
+
+    //Set Status
     setProgressStatus(state, status) {
       state.checkInProgress = status;
     },
     setLoosingLifeStatus(state, status) {
-      state.loosingLife = status;
+      state.loosingLifeStatus = status;
     },
+    setGameInitializedStatus(state, status) {
+      state.gameInitialized = status;
+    },
+    setGameSetupStatus(state, status) {
+      state.gameSetupStatus = status;
+    },
+    setGameCompletedStatus(state, status) {
+      state.gameCompleted = status;
+    },
+
+    //Set Values
     setLives(state, lives) {
       state.chosenLives = lives;
     },
     setNumCards(state, numCards) {
       state.numCards = numCards;
-    },
-    setGameStatus(state, status) {
-      state.gameInitialized = status;
-    },
-    setGameSetupInProgress(state, status) {
-      state.gameSetup = status;
     },
     initializeLives(state) {
       state.lives = state.chosenLives;
@@ -51,9 +59,8 @@ export default new Vuex.Store({
     decreaseLives(state) {
       state.lives = state.lives - 1;
     },
-    setGameCompleted(state, status) {
-      state.gameCompleted = status;
-    },
+
+    //Toggle
     toggleCard(state, index) {
       state.flippedStatusList.splice(index, 1, !state.flippedStatusList[index])
     },
@@ -63,8 +70,8 @@ export default new Vuex.Store({
   },
   actions: {
     initializeGame({state, commit}) {
-      commit('setGameSetupInProgress', true)
-      commit('setGameStatus', true);
+      commit('setGameSetupStatus', true)
+      commit('setGameInitializedStatus', true);
       setTimeout(function(){
         let statusList = [];
         let visibilityList = [];
@@ -76,13 +83,13 @@ export default new Vuex.Store({
         commit('setVisibilityList', visibilityList);
         commit('setCardList', generateCardList(state.numCards/2));
         commit('initializeLives');
-        commit('setGameCompleted', false);
-        commit('setGameSetupInProgress', false)
+        commit('setGameCompletedStatus', false);
+        commit('setGameSetupStatus', false)
       }, 1500)
     },
     restoreDefault({commit}) {
-      commit('setGameCompleted', false);
-      commit('setGameStatus', false);
+      commit('setGameCompletedStatus', false);
+      commit('setGameInitializedStatus', false);
     }
   },
 });

@@ -55,7 +55,7 @@ export default {
             top: -50%;
             left: 0;
             background: linear-gradient(to bottom, rgba(255, 00, 0, 0) 0%, #ff0000 75%, #ff0000 100%);
-            animation: drop 7s 0s infinite;
+            animation: backgroundLineDrop 7s 0s infinite;
             animation-fill-mode: forwards;
             animation-timing-function: cubic-bezier(0.4, 0.26, 0, 0.97);
         }
@@ -97,7 +97,7 @@ export default {
 }
   
     
-@keyframes drop {
+@keyframes backgroundLineDrop {
   0%{
     top: -50%
   }

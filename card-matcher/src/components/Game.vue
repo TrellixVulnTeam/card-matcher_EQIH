@@ -28,7 +28,7 @@ export default {
     StatusBar,
   },
   methods: {
-    ...mapMutations(['setCardList', 'setFlippedStatusList', 'toggleCard', 'toggleVisibility', 'setVisibilityList', 'setProgressStatus', 'setLoosingLifeStatus', 'decreaseLives', 'setGameCompleted']),
+    ...mapMutations(['setCardList', 'setFlippedStatusList', 'toggleCard', 'toggleVisibility', 'setVisibilityList', 'setProgressStatus', 'setLoosingLifeStatus', 'decreaseLives', 'setGameCompletedStatus']),
     ...mapActions(['initializeGame'])
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
               this.toggleCard(index2);
               this.setProgressStatus(false);
               if (this.isSuccess) {
-                this.setGameCompleted(true);
+                this.setGameCompletedStatus(true);
               }
             }, 1000, index1, index2)
           }, 1200, maxIndex, flippedIndicies[0]);
@@ -89,7 +89,7 @@ export default {
             setTimeout(() => {
               this.setLoosingLifeStatus(false);
               if (this.lives === 0) {
-                this.setGameCompleted(true);
+                this.setGameCompletedStatus(true);
               }
               this.setProgressStatus(false);
             }, 1500);
@@ -123,9 +123,4 @@ export default {
 
 }
 
-
-* {
-    margin: 0;
-    padding: 0;
-}
 </style>

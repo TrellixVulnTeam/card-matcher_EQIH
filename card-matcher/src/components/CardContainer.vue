@@ -37,11 +37,11 @@ export default {
     flex-wrap: wrap;
     align-items: center;
     opacity: 0;
-    animation: fadein 2s forwards;
+    animation: fadeInCardContainer 2s forwards;
 
   }
 
-@keyframes fadein {
+@keyframes fadeInCardContainer {
   0%{
     opacity: 0;
   }
