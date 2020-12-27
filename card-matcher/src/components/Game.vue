@@ -56,9 +56,7 @@ export default {
     }),
   },
   mounted: function() {
-    if (this.$store.state.gameInitialized) {
-      this.initializeGame();
-    } else {
+    if (!this.$store.state.gameInitialized) {
       this.$router.push({ name: 'Welcome'});
     }
   },

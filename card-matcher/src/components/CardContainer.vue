@@ -36,8 +36,17 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    opacity: 0;
+    animation: fadein 2s forwards;
 
   }
-#app {
+
+@keyframes fadein {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 </style>

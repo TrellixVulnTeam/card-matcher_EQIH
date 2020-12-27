@@ -7,20 +7,20 @@
             class="Message__success"
             >
             Success!
-            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Play Again </span>    <span class="Message__choice">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
+            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Play Again </span>    <span class="Message__choice" @click="loadHome()">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
           </span>
           <span 
             v-if="status && !isSuccess"
             class="Message__fail"
             >
             Game Over
-            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Try Again </span>    <span class="Message__choice">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
+            <span class="Message__choices"> <span class="Message__choice" @click="initializeGame()"> <font-awesome-icon :icon="['fas', 'sync-alt']" style="font-size: 20px;" /> Try Again </span>    <span class="Message__choice" @click="loadHome()">  <font-awesome-icon :icon="['fas', 'home']" style="font-size: 20px;"/> Home  </span> </span>
           </span>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'Message',
@@ -28,7 +28,14 @@ export default {
         status: Boolean,
         isSuccess: Boolean,
     },
-    methods: mapActions(['initializeGame'])
+    methods: {
+      ...mapMutations(['setGameStatus']),
+      ...mapActions(['initializeGame', 'restoreDefault']),
+      loadHome() {
+        this.restoreDefault();
+        this.$router.push({name: 'Welcome'});
+      }
+    }
 }
 
 </script>

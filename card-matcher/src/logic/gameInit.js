@@ -23,7 +23,7 @@ const randomizeArray = (arr, limit = null) => {
 const generateCardList = (lim = 3) => {
     // Randomize initial card list with limit
     let randomCardList = randomizeArray(cardMainList, lim);
-    //Duplicate elements in list
+    // Duplicate elements in list
     randomCardList.push(...randomCardList)
     // Randomize elements again (no limit)
     return randomizeArray(randomCardList);

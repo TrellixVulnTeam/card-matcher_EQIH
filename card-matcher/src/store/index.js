@@ -9,11 +9,13 @@ export default new Vuex.Store({
     flippedStatusList: [],
     visibilityList: [],
     checkInProgress: false,
-    lives: 1,
+    lives: 0,
     loosingLife: false,
     gameCompleted: false,
     chosenLives: 7,
     gameInitialized: false,
+    numCards: 6,
+    gameSetup: false,
   },
   mutations: {
     setFlippedStatusList(state, list) {
@@ -31,7 +33,19 @@ export default new Vuex.Store({
     setLoosingLifeStatus(state, status) {
       state.loosingLife = status;
     },
-    setLives(state) {
+    setLives(state, lives) {
+      state.chosenLives = lives;
+    },
+    setNumCards(state, numCards) {
+      state.numCards = numCards;
+    },
+    setGameStatus(state, status) {
+      state.gameInitialized = status;
+    },
+    setGameSetupInProgress(state, status) {
+      state.gameSetup = status;
+    },
+    initializeLives(state) {
       state.lives = state.chosenLives;
     },
     decreaseLives(state) {
@@ -48,19 +62,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    initializeGame(state) {
-      console.log("called")
-      let statusList = [];
-      let visibilityList = [];
-      for (let i = 0; i < 6; ++i) {
-        statusList.push(false);
-        visibilityList.push(true);
-      }
-      state.commit('setFlippedStatusList', statusList);
-      state.commit('setVisibilityList', visibilityList);
-      state.commit('setCardList', generateCardList());
-      state.commit('setLives');
-      state.commit('setGameCompleted', false);
+    initializeGame({state, commit}) {
+      commit('setGameSetupInProgress', true)
+      commit('setGameStatus', true);
+      setTimeout(function(){
+        let statusList = [];
+        let visibilityList = [];
+        for (let i = 0; i < state.numCards; ++i) {
+          statusList.push(false);
+          visibilityList.push(true);
+        }
+        commit('setFlippedStatusList', statusList);
+        commit('setVisibilityList', visibilityList);
+        commit('setCardList', generateCardList(state.numCards/2));
+        commit('initializeLives');
+        commit('setGameCompleted', false);
+        commit('setGameSetupInProgress', false)
+      }, 1500)
+    },
+    restoreDefault({commit}) {
+      commit('setGameCompleted', false);
+      commit('setGameStatus', false);
     }
   },
 });
